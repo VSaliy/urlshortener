@@ -1,0 +1,9 @@
+mongo:
+  image: mongo
+
+backend:
+  image: vsaliy/url-shortener
+  links:
+   - mongo
+  ports:
+   - "8080:8080"
