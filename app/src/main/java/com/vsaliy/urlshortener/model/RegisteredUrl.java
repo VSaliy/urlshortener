@@ -11,7 +11,7 @@ public class RegisteredUrl {
 	@Id
 	private String id;
 	private Long count;
-	private final String shortUrlId;
+	private String shortUrlId;
 	private final URL url;
 
 	public RegisteredUrl(String shortUrlId, URL url) {
@@ -33,6 +33,10 @@ public class RegisteredUrl {
 
 	public String getShortUrlId() {
 		return shortUrlId;
+	}
+
+	public void setShortUrlId(String shortUrlId) {
+		this.shortUrlId = shortUrlId;
 	}
 
 	public URL getUrl() {

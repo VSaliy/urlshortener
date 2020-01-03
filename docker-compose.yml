@@ -1,9 +1,35 @@
-mongo:
-  image: mongo
+version: '3'
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:1.13
+    restart: always
+    ports:
+    - 80:80
+    - 443:443
+    volumes:
+    - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - app
 
-backend:
-  image: vsaliy/url-shortener
-  links:
-   - mongo
-  ports:
-   - "8080:8080"
+  mongodb:
+    container_name: mongodb
+    image: mongo:3.6
+    restart: always
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    ports:
+      - 27017:27017
+    command: mongod --smallfiles --logpath=/dev/null # --quiet
+
+  app:
+    build: ./app
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    expose:
+      - "8080"
+    command: mvn clean spring-boot:run
+    depends_on:
+      - mongodb

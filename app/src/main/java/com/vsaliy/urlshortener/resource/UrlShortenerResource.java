@@ -22,7 +22,13 @@ public class UrlShortenerResource {
 		LOGGER.info("Received url to shorten: " + url);
 		RegisteredUrl registeredUrl = urlShortenerService.convertUrl(url);
 		LOGGER.info("Shortened url to: " + registeredUrl.getShortUrlId());
-		return registeredUrl; //TODO: Convert to dto, complete shortened url
+		completeShortenedUrl(registeredUrl);
+		return registeredUrl;
+	}
+
+	@DeleteMapping("/")
+	public RegisteredUrl deleteUrl(@RequestParam(value="url") String url) {
+		throw new UnsupportedOperationException();
 	}
 
 	@GetMapping("/{id}")
@@ -37,4 +43,9 @@ public class UrlShortenerResource {
 	public void getStatistics(@PathVariable String id) {
 		System.out.println(id);
 	}
+
+	private void completeShortenedUrl(RegisteredUrl registeredUrl) {
+		registeredUrl.setShortUrlId("http://localhost/" + registeredUrl.getShortUrlId());
+	}
+
 }
